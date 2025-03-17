@@ -1,8 +1,8 @@
-name: Update Stats
+name: Update Visits
 
 on:
   repository_dispatch:
-    types: [update_stats]
+    types: [update_visits]
 
 jobs:
   update:
