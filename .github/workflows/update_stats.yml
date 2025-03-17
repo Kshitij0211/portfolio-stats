@@ -28,4 +28,4 @@ jobs:
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/Kshitij0211/portfolio-stats.git
           git add stats.json
           git commit -m "Updated visit count" || echo "No changes to commit"
-          git push orig
+          git push origin main
