@@ -1,0 +1,28 @@
+name: Update Stats
+
+on:
+  repository_dispatch:
+    types: [update_stats]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Update Visit Count
+        run: |
+          VISITS=$(jq '.visits + 1' stats.json)
+          jq --argjson visits "$VISITS" '.visits = $visits' stats.json > temp.json && mv temp.json stats.json
+
+      - name: Commit and Push Changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}  # Using your GitHub Secret
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add stats.json
+          git commit -m "Updated visit count"
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/YOUR_GITHUB_USERNAME/YOUR_REPO.git main
